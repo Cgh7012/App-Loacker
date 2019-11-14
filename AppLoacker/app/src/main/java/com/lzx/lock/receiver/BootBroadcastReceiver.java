@@ -23,5 +23,7 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
         if (SpUtil.getInstance().getBoolean(AppConstants.LOCK_STATE, false)) {
             context.startService(new Intent(context, LockService.class));
         }
+
     }
+
 }
