@@ -5,20 +5,71 @@ def releaseTime() {
 }
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
-        applicationId "com.lzx.lock"
-        minSdkVersion 15
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        applicationId "${app_id}"
+
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode project.version_code as int
+        versionName "${version_name}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+    signingConfigs {
+        debug {
+            keyAlias "${signing_keyAlias}"
+            keyPassword "${signging_certificatePassword}"
+            storeFile file('E:/workspace/dev_apploacker/AppLoacker/apploacker.jks')
+            storePassword "${signging_storePassword}"
+        }
         release {
+            keyAlias "${signing_keyAlias}"
+            keyPassword "${signging_certificatePassword}"
+            storeFile file('E:/workspace/dev_apploacker/AppLoacker/apploacker.jks')
+            storePassword "${signging_storePassword}"
+        }
+    }
+
+    buildTypes {
+        debug {
+            // 显示Log
+            debuggable true
+            versionNameSuffix "-debug"
+            //混淆
             minifyEnabled false
+            //拆分dex
+            multiDexEnabled true
+            //Zipalign优化
+            zipAlignEnabled false
+            // 移除无用的resource文件
+            shrinkResources false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //fish 文件配置
+            buildConfigField('java.lang.String', 'FISH_LANGUAGE', "${language_sit}")
+
+        }
+        release {
+            // 不显示Log
+            debuggable false
+            //混淆
+            minifyEnabled true
+            //拆分dex
+            multiDexEnabled true
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            signingConfig signingConfigs.release
+            aaptOptions.cruncherEnabled = false
+            aaptOptions.useNewCruncher = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //fish 文件配置
+            buildConfigField('java.lang.String', 'FISH_LANGUAGE', "${language_prd}")
+
         }
     }
 

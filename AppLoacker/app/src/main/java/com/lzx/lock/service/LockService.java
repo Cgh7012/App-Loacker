@@ -1,5 +1,6 @@
 package com.lzx.lock.service;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.IntentService;
 import android.app.usage.UsageEvents;
@@ -38,7 +39,6 @@ public class LockService extends IntentService {
     public IBinder onBind(Intent intent) {
         return null;
     }
-
 
 
     public boolean threadIsTerminate = false; //是否开启循环
@@ -231,6 +231,7 @@ public class LockService extends IntentService {
     /**
      * 获取栈顶应用包名
      */
+    @SuppressLint("NewApi")
     public String getLauncherTopApp(Context context, ActivityManager activityManager) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             List<ActivityManager.RunningTaskInfo> appTasks = activityManager.getRunningTasks(1);

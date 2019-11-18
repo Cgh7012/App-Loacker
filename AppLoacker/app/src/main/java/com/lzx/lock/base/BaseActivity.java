@@ -1,5 +1,6 @@
 package com.lzx.lock.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +9,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.lzx.lock.BuildConfig;
 import com.lzx.lock.LockApplication;
 import com.lzx.lock.R;
+import com.lzx.lock.utils.AppLanguageUtils;
 import com.lzx.lock.utils.SystemBarHelper;
 
 /**
@@ -85,5 +88,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public final void clear() {
         super.finish();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(AppLanguageUtils.attachBaseContext(newBase, BuildConfig.FISH_LANGUAGE));
     }
 }

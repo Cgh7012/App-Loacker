@@ -1,7 +1,11 @@
 package com.lzx.lock;
 
+import android.content.Context;
+import android.content.res.Configuration;
+
 import com.lzx.lock.module.lock.GestureUnlockActivity;
 import com.lzx.lock.base.BaseActivity;
+import com.lzx.lock.utils.AppLanguageUtils;
 import com.lzx.lock.utils.SpUtil;
 
 import org.litepal.LitePalApplication;
@@ -21,6 +25,7 @@ public class LockApplication extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        AppLanguageUtils.setLanguage(this, BuildConfig.FISH_LANGUAGE);
         application = this;
         SpUtil.getInstance().init(application);
         activityList = new ArrayList<>();
@@ -54,6 +59,14 @@ public class LockApplication extends LitePalApplication {
         return activity instanceof GestureUnlockActivity;
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        AppLanguageUtils.setLanguage(this, BuildConfig.FISH_LANGUAGE);
+    }
 
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(AppLanguageUtils.attachBaseContext(base, BuildConfig.FISH_LANGUAGE));
+    }
 }
